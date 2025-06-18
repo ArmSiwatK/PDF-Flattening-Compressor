@@ -26,11 +26,7 @@ const convertPDFToImages = async (inputPDFPath, tempDir) => {
     const spinner = ora('Converting PDF to high-quality images in parallel...').start();
     const startTime = Date.now();
 
-    const convertPromises = Array.from({ length: pageCount }, (_, i) => {
-        const pageNum = i + 1;
-        const opts = { ...optsBase, page: pageNum };
-        return pdf.convert(inputPDFPath, opts);
-    });
+    const convertPromises = generateConversionPromises(inputPDFPath, pageCount, optsBase);
     await Promise.all(convertPromises);
 
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
@@ -42,6 +38,16 @@ const convertPDFToImages = async (inputPDFPath, tempDir) => {
 
     if (!images.length) throw new Error('No images generated from PDF');
     return images;
+};
+
+
+
+const generateConversionPromises = (inputPDFPath, pageCount, optsBase) => {
+    return Array.from({ length: pageCount }, (_, i) => {
+        const pageNum = i + 1;
+        const opts = { ...optsBase, page: pageNum };
+        return pdf.convert(inputPDFPath, opts);
+    });
 };
 
 
