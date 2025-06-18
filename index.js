@@ -15,12 +15,15 @@ const convertPDFToImages = async (inputPDFPath, tempDir) => {
         out_dir: tempDir,
         out_prefix: 'page',
         poppler_path: path.join(__dirname, 'poppler-24.08.0', 'Library', 'bin'),
+        scale: 2000,
+        anti_aliasing: true
     };
+
     const pdfData = await fs.readFile(inputPDFPath);
     const pdfDoc = await LibPDFDocument.load(pdfData);
     const pageCount = pdfDoc.getPageCount();
 
-    const spinner = ora('Converting PDF to images in parallel...').start();
+    const spinner = ora('Converting PDF to high-quality images in parallel...').start();
     const startTime = Date.now();
 
     const convertPromises = Array.from({ length: pageCount }, (_, i) => {
@@ -31,7 +34,7 @@ const convertPDFToImages = async (inputPDFPath, tempDir) => {
     await Promise.all(convertPromises);
 
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-    spinner.succeed(`Parallel conversion complete in ${elapsed}s`);
+    spinner.succeed(`High-quality conversion complete in ${elapsed}s`);
 
     const images = (await fs.readdir(tempDir))
         .filter(f => f.startsWith('page') && f.endsWith('.png'))
