@@ -44,7 +44,6 @@ const flattenPDF = async (inputPDFPath, outputPDFPath) => {
             const img = await pdfDoc.embedPng(await fs.readFile(path.join(tempDir, imageFile)));
             const page = pdfDoc.addPage([img.width, img.height]);
             page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
-            console.log(`    - Added page ${i + 1}/${images.length}`);
         }
 
         await fs.writeFile(outputPDFPath, await pdfDoc.save());
