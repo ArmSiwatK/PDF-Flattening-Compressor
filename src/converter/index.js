@@ -1,5 +1,4 @@
 const fs = require('fs').promises;
-const path = require('path');
 const { PDFDocument: LibPDFDocument } = require('pdf-lib');
 const pdf = require('pdf-poppler');
 const ora = require('ora').default;
