@@ -10,31 +10,39 @@ const outputDir = path.join(__dirname, 'output');
 
 const flattenPDF = async (inputPDFPath, outputPDFPath) => {
     try {
+        console.log(`\n[+] Starting flatten for: ${path.basename(inputPDFPath)}`);
         await fs.mkdir(outputDir, { recursive: true });
+
         const opts = {
             format: 'png',
             out_dir: outputDir,
             out_prefix: 'page',
             poppler_path: path.join(__dirname, 'poppler-24.08.0', 'Library', 'bin'),
         };
-
+        console.log('[+] Converting PDF to images...');
         await pdf.convert(inputPDFPath, opts);
+
         const images = (await fs.readdir(outputDir))
             .filter(f => f.startsWith('page') && f.endsWith('.png'))
             .sort();
-
         if (!images.length) throw new Error('No images generated from PDF');
 
+        console.log(`[+] Embedding ${images.length} images into new PDF...`);
         const pdfDoc = await PDFDocument.create();
-        await Promise.all(images.map(async imageFile => {
+
+        for (let i = 0; i < images.length; i++) {
+            const imageFile = images[i];
             const img = await pdfDoc.embedPng(await fs.readFile(path.join(outputDir, imageFile)));
             const page = pdfDoc.addPage([img.width, img.height]);
             page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
-        }));
+            console.log(`    - Added page ${i + 1}/${images.length}`);
+        }
 
         await fs.writeFile(outputPDFPath, await pdfDoc.save());
+        console.log(`[+] Saved flattened PDF to: ${outputPDFPath}`);
+
         await Promise.all(images.map(f => fs.unlink(path.join(outputDir, f))));
-        console.log(`Flattened PDF saved: ${outputPDFPath}`);
+        console.log('[+] Cleaned up temporary images.');
     } catch (error) {
         console.error('Error during PDF flattening:', error);
     }
