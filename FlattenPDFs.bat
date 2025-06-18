@@ -2,7 +2,7 @@
 cd /d "%~dp0"
 echo Running PDF flattening script...
 echo ---------------------------------
-node index.js
+node main.js
 echo ---------------------------------
 echo Script finished.
 pause
