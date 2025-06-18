@@ -6,7 +6,9 @@ const pdf = require('pdf-poppler');
 const inputDir = path.join(__dirname, 'input');
 const outputDir = path.join(__dirname, 'output');
 
-async function flattenPDF(inputPDFPath, outputPDFPath) {
+
+
+const flattenPDF = async (inputPDFPath, outputPDFPath) => {
     try {
         await fs.mkdir(outputDir, { recursive: true });
         const opts = {
@@ -36,9 +38,11 @@ async function flattenPDF(inputPDFPath, outputPDFPath) {
     } catch (error) {
         console.error('Error during PDF flattening:', error);
     }
-}
+};
 
-async function main() {
+
+
+const main = async () => {
     try {
         const files = await fs.readdir(inputDir);
         const pdfFiles = files.filter(file => path.extname(file).toLowerCase() === '.pdf');
@@ -51,6 +55,8 @@ async function main() {
     } catch (error) {
         console.error('Error:', error);
     }
-}
+};
+
+
 
 main();
