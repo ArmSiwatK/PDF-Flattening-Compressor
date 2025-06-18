@@ -42,11 +42,11 @@ npm -v
 
 3. Ensure the following folders exist:
 
-    - input/ (place your input PDF files here)
+    - `input/` (place your input PDF files here)
 
-    - output/ (will be created automatically if missing)
+    - `output/` (will be created automatically if missing)
 
-4. Verify that Poppler binaries are present at the correct path (poppler-24.08.0/Library/bin).
+4. Verify that Poppler binaries are present at the correct path (`poppler-24.08.0/Library/bin`).
 
 ---
 
@@ -74,7 +74,7 @@ The script will:
 
 ## Troubleshooting
 
-- If you encounter errors related to Poppler, verify the poppler-24.08.0/Library/bin path and binaries.
+- If you encounter errors related to Poppler, verify the `poppler-24.08.0/Library/bin` path and binaries.
 
 - Ensure you have read/write permissions on the project folders.
 
