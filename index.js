@@ -2,6 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const { PDFDocument } = require('pdf-lib');
 const pdf = require('pdf-poppler');
+const ora = require('ora').default;
 
 const inputDir = path.join(__dirname, 'input');
 const outputDir = path.join(__dirname, 'output');
@@ -19,8 +20,12 @@ const flattenPDF = async (inputPDFPath, outputPDFPath) => {
             out_prefix: 'page',
             poppler_path: path.join(__dirname, 'poppler-24.08.0', 'Library', 'bin'),
         };
-        console.log('[+] Converting PDF to images...');
+
+        const spinner = ora('Converting PDF to images...').start();
+        const startTime = Date.now();
         await pdf.convert(inputPDFPath, opts);
+        const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+        spinner.succeed(`Conversion complete in ${elapsed}s`);
 
         const images = (await fs.readdir(outputDir))
             .filter(f => f.startsWith('page') && f.endsWith('.png'))
