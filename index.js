@@ -14,9 +14,13 @@ const flattenPDF = async (inputPDFPath, outputPDFPath) => {
         console.log(`\n[+] Starting flatten for: ${path.basename(inputPDFPath)}`);
         await fs.mkdir(outputDir, { recursive: true });
 
+        const pdfName = path.basename(inputPDFPath, '.pdf');
+        const tempDir = path.join(outputDir, pdfName);
+        await fs.mkdir(tempDir, { recursive: true });
+
         const opts = {
             format: 'png',
-            out_dir: outputDir,
+            out_dir: tempDir,
             out_prefix: 'page',
             poppler_path: path.join(__dirname, 'poppler-24.08.0', 'Library', 'bin'),
         };
@@ -27,7 +31,7 @@ const flattenPDF = async (inputPDFPath, outputPDFPath) => {
         const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
         spinner.succeed(`Conversion complete in ${elapsed}s`);
 
-        const images = (await fs.readdir(outputDir))
+        const images = (await fs.readdir(tempDir))
             .filter(f => f.startsWith('page') && f.endsWith('.png'))
             .sort();
         if (!images.length) throw new Error('No images generated from PDF');
@@ -37,7 +41,7 @@ const flattenPDF = async (inputPDFPath, outputPDFPath) => {
 
         for (let i = 0; i < images.length; i++) {
             const imageFile = images[i];
-            const img = await pdfDoc.embedPng(await fs.readFile(path.join(outputDir, imageFile)));
+            const img = await pdfDoc.embedPng(await fs.readFile(path.join(tempDir, imageFile)));
             const page = pdfDoc.addPage([img.width, img.height]);
             page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
             console.log(`    - Added page ${i + 1}/${images.length}`);
@@ -46,7 +50,8 @@ const flattenPDF = async (inputPDFPath, outputPDFPath) => {
         await fs.writeFile(outputPDFPath, await pdfDoc.save());
         console.log(`[+] Saved flattened PDF to: ${outputPDFPath}`);
 
-        await Promise.all(images.map(f => fs.unlink(path.join(outputDir, f))));
+        await Promise.all(images.map(f => fs.unlink(path.join(tempDir, f))));
+        await fs.rmdir(tempDir);
         console.log('[+] Cleaned up temporary images.');
     } catch (error) {
         console.error('Error during PDF flattening:', error);
