@@ -11,7 +11,8 @@ const outputDir = path.join(__dirname, 'output');
 
 const convertPDFToImages = async (inputPDFPath, tempDir) => {
     const opts = {
-        format: 'png',
+        format: 'jpeg',
+        jpeg_quality: 75,
         out_dir: tempDir,
         out_prefix: 'page',
         poppler_path: path.join(__dirname, 'poppler-24.08.0', 'Library', 'bin'),
@@ -28,7 +29,7 @@ const convertPDFToImages = async (inputPDFPath, tempDir) => {
     spinner.succeed(`High-quality conversion complete in ${((Date.now() - start) / 1000).toFixed(2)}s`);
 
     const images = (await fs.readdir(tempDir))
-        .filter(f => f.startsWith('page') && f.endsWith('.png'))
+        .filter(f => f.startsWith('page') && (f.endsWith('.jpeg') || f.endsWith('.jpg')))
         .sort();
     if (!images.length) throw new Error('No images generated from PDF');
     return images;
@@ -51,7 +52,8 @@ const embedImagesIntoPDF = async (images, tempDir, outputPDFPath) => {
     const pdfDoc = await LibPDFDocument.create();
 
     for (const imageFile of images) {
-        const img = await pdfDoc.embedPng(await fs.readFile(path.join(tempDir, imageFile)));
+        const imageBuffer = await fs.readFile(path.join(tempDir, imageFile));
+        const img = await pdfDoc.embedJpg(imageBuffer);
         const page = pdfDoc.addPage([img.width, img.height]);
         page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
     }
