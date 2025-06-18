@@ -1,7 +1,7 @@
 const path = require('path');
-const { convertPDFToImages } = require('./pdfConverter');
-const { embedImagesIntoPDF } = require('./pdfEmbedder');
-const { cleanupTempFiles, ensureDirectoryExists } = require('./fileUtils');
+const { convertPDFToImages } = require('../converter');
+const { embedImagesIntoPDF } = require('../embedder');
+const { cleanupTempFiles, ensureDirectoryExists } = require('../utils');
 
 
 

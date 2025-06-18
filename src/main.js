@@ -1,7 +1,7 @@
 const fs = require('fs').promises;
 const path = require('path');
-const { processSinglePDF } = require('./processPDF');
-const config = require('./config');
+const { processSinglePDF } = require('./processor');
+const config = require('../config');
 
 
 
