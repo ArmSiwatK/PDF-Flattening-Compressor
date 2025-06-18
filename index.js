@@ -10,7 +10,7 @@ const outputDir = path.join(__dirname, 'output');
 
 
 const convertPDFToImages = async (inputPDFPath, tempDir) => {
-    const optsBase = {
+    const opts = {
         format: 'png',
         out_dir: tempDir,
         out_prefix: 'page',
@@ -19,23 +19,17 @@ const convertPDFToImages = async (inputPDFPath, tempDir) => {
         anti_aliasing: true
     };
 
-    const pdfData = await fs.readFile(inputPDFPath);
-    const pdfDoc = await LibPDFDocument.load(pdfData);
-    const pageCount = pdfDoc.getPageCount();
-
+    const pdfDoc = await LibPDFDocument.load(await fs.readFile(inputPDFPath));
     const spinner = ora('Converting PDF to high-quality images in parallel...').start();
-    const startTime = Date.now();
+    const start = Date.now();
 
-    const convertPromises = generateConversionPromises(inputPDFPath, pageCount, optsBase);
-    await Promise.all(convertPromises);
+    await Promise.all(generateConversionPromises(inputPDFPath, pdfDoc.getPageCount(), opts));
 
-    const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-    spinner.succeed(`High-quality conversion complete in ${elapsed}s`);
+    spinner.succeed(`High-quality conversion complete in ${((Date.now() - start) / 1000).toFixed(2)}s`);
 
     const images = (await fs.readdir(tempDir))
         .filter(f => f.startsWith('page') && f.endsWith('.png'))
         .sort();
-
     if (!images.length) throw new Error('No images generated from PDF');
     return images;
 };
