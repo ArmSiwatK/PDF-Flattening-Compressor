@@ -1,6 +1,6 @@
 const fs = require('fs').promises;
 const path = require('path');
-const { PDFDocument } = require('pdf-lib');
+const { PDFDocument: LibPDFDocument } = require('pdf-lib');
 const pdf = require('pdf-poppler');
 const ora = require('ora').default;
 
@@ -10,19 +10,28 @@ const outputDir = path.join(__dirname, 'output');
 
 
 const convertPDFToImages = async (inputPDFPath, tempDir) => {
-
-    const opts = {
+    const optsBase = {
         format: 'png',
         out_dir: tempDir,
         out_prefix: 'page',
         poppler_path: path.join(__dirname, 'poppler-24.08.0', 'Library', 'bin'),
     };
+    const pdfData = await fs.readFile(inputPDFPath);
+    const pdfDoc = await LibPDFDocument.load(pdfData);
+    const pageCount = pdfDoc.getPageCount();
 
-    const spinner = ora('Converting PDF to images...').start();
+    const spinner = ora('Converting PDF to images in parallel...').start();
     const startTime = Date.now();
-    await pdf.convert(inputPDFPath, opts);
+
+    const convertPromises = Array.from({ length: pageCount }, (_, i) => {
+        const pageNum = i + 1;
+        const opts = { ...optsBase, page: pageNum };
+        return pdf.convert(inputPDFPath, opts);
+    });
+    await Promise.all(convertPromises);
+
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-    spinner.succeed(`Conversion complete in ${elapsed}s`);
+    spinner.succeed(`Parallel conversion complete in ${elapsed}s`);
 
     const images = (await fs.readdir(tempDir))
         .filter(f => f.startsWith('page') && f.endsWith('.png'))
@@ -36,7 +45,7 @@ const convertPDFToImages = async (inputPDFPath, tempDir) => {
 
 const embedImagesIntoPDF = async (images, tempDir, outputPDFPath) => {
     console.log(`[+] Embedding ${images.length} images into new PDF...`);
-    const pdfDoc = await PDFDocument.create();
+    const pdfDoc = await LibPDFDocument.create();
 
     for (const imageFile of images) {
         const img = await pdfDoc.embedPng(await fs.readFile(path.join(tempDir, imageFile)));
