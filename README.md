@@ -66,11 +66,15 @@ The script will:
 
 - Clean up temporary image files automatically.
 
+---
+
 ## Notes
 
 - The script preserves input PDF filenames for output.
 
 - Make sure Poppler binaries are accessible to the script (local path configured in index.js).
+
+---
 
 ## Troubleshooting
 
