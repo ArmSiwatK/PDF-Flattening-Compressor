@@ -1,14 +1,14 @@
 # PDF Flattening Tool
 
-This Node.js script converts each page of input PDF files into images and recompiles them into flattened PDFs.  
-The input PDFs are read from the `input/` folder, and the flattened PDFs are saved to the `output/` folder with the same filenames.
+This TypeScript-based Node.js application converts each page of input PDF files into images, then recompiles them into flattened PDFs.
+Input PDFs are read from the `input/` folder; flattened PDFs are output to the `output/` folder, preserving original filenames.
 
 ---
 
 ## Prerequisites
 
-- **Node.js** (v12 or higher) installed  
-- **Poppler-utils** binaries downloaded and placed locally inside the project at: `poppler-VERSION/Library/bin` (contains `pdftoppm.exe` and related executables). Windows users can download Poppler from: https://github.com/oschwartz10612/poppler-windows/releases
+- **Node.js** (v12 or higher) installed
+- **Poppler-utils** binaries downloaded locally at:poppler-VERSION/Library/bin (contains pdftoppm and related executables). Windows users can download Poppler from: https://github.com/oschwartz10612/poppler-windows/release
 
 ---
 
@@ -31,7 +31,7 @@ npm -v
 
 ---
 
-## Setup Steps
+## Setup Instructions
 
 1. Open a terminal and navigate to the project directory.
 
@@ -40,31 +40,35 @@ npm -v
    npm install
    ```
 
-3. Ensure the following folders exist:
-
-    - `input/` (place your input PDF files here)
-
-    - `output/` (will be created automatically if missing)
-
-4. Verify that Poppler binaries are present at the correct path (`poppler-24.08.0/Library/bin`).
+3. Verify that Poppler binaries are present at the correct path (`poppler-24.08.0/Library/bin`).
 
 ---
 
-## Running the Script
+## Running the Application
 
-Run the program with:
+Run the project with:
 
 ```
-node index.js
+npm start
 ```
 
 The script will:
+
+- Compile the TypeScript source from src/ to JavaScript in dist/.
 
 - Process all PDF files in the input/ folder.
 
 - Generate flattened PDFs in the output/ folder.
 
 - Clean up temporary image files automatically.
+
+---
+
+## Configuration
+
+- Poppler binary path and image conversion options are configurable in config.ts.
+- 
+- Ensure Poppler binaries are accessible and permissions allow read/write operations.
 
 ---
 
