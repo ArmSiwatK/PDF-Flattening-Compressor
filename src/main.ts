@@ -5,6 +5,7 @@ import { config } from './config';
 
 const main = async (): Promise<void> => {
     try {
+        await fs.mkdir(config.inputDir, { recursive: true });
         await fs.rm(config.outputDir, { recursive: true, force: true });
         await fs.mkdir(config.outputDir, { recursive: true });
 
