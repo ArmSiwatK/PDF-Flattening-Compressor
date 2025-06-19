@@ -14,14 +14,9 @@ export const processSinglePDF = async (inputPDFPath: string, outputPDFPath: stri
     console.log(`\n[+] Starting flatten for: ${path.basename(inputPDFPath)}`);
     await ensureDirectoryExists(config.outputDir);
 
-    const tempDir = path.join(config.outputDir, path.basename(inputPDFPath, '.pdf'));
+    const tempDir = path.join(config.outputDir, `temp_${Date.now()}`);
     await ensureDirectoryExists(tempDir);
-
-    const images = await convertPDFToImages({
-        inputPDFPath,
-        tempDir,
-        convertOptions: config.convertOptions,
-    });
+    const images = await convertPDFToImages({ inputPDFPath, tempDir, convertOptions: config.convertOptions, });
 
     await embedImagesIntoPDF(images, tempDir, outputPDFPath);
     await cleanupTempFiles(tempDir, images);
