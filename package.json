@@ -4,12 +4,12 @@
         "start": "npm run build && node dist/main.js"
     },
     "dependencies": {
-        "node-poppler": "^9.1.1",
-        "ora": "^9.3.0",
+        "node-poppler": "^9.1.2",
+        "ora": "^9.4.0",
         "pdf-lib": "^1.17.1"
     },
     "devDependencies": {
-        "@types/node": "^25.3.0",
-        "typescript": "^5.9.3"
+        "@types/node": "^25.6.0",
+        "typescript": "^6.0.3"
     }
 }
