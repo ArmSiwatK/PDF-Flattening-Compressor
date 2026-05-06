@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { processSinglePDF, ProcessPDFConfig } from './processor';
-import { config } from './config';
+import { processSinglePDF, type ProcessPDFConfig } from './processor/index.js';
+import { config } from './config/index.js';
 
 const main = async (): Promise<void> => {
     try {
