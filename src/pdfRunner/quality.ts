@@ -4,23 +4,13 @@ import { type ScalePageTo } from './config.js';
 
 
 const scalePageToOptions = {
-    '1': {
-        label: 'Smallest',
-        value: 1000,
-    },
-    '2': {
-        label: 'Clearer',
-        value: 2000,
-    },
-    '3': {
-        label: 'Much Clearer',
-        value: 3000,
-    },
+    '1': { label: 'Smallest', value: 1000 },
+    '2': { label: 'Clearer', value: 2000 },
+    '3': { label: 'Much Clearer', value: 3000 }
 } as const satisfies Record<string, { label: string; value: ScalePageTo }>;
 
 
 type ScalePageToOptionKey = keyof typeof scalePageToOptions;
-
 
 const isScalePageToOptionKey = (value: string): value is ScalePageToOptionKey => {
     return value in scalePageToOptions;
