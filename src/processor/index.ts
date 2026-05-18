@@ -1,7 +1,7 @@
 import path from 'path';
 import { convertPDFToImages, type ConvertPDFToImagesParams } from '../converter/index.js';
 import { embedImagesIntoPDF } from '../embedder/index.js';
-import { cleanupTempFiles, ensureDirectoryExists } from '../utils/index.js';
+import { cleanupTempFiles, ensureDirectoryExists } from './utils.js';
 
 export interface ProcessPDFConfig {
     outputDir: string;
