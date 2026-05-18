@@ -1,6 +1,6 @@
 import { processPDFsInInputDir } from './pdfRunner/index.js';
 import { config } from './pdfRunner/config.js';
-import { openDirectory } from './utils.js';
+import { openDirectory } from './openDirectory.js';
 
 const main = async (): Promise<void> => {
     try {
