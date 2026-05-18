@@ -1,9 +1,11 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+export type ScalePageTo = 1000 | 2000 | 3000;
+
 export interface ConvertOptions {
     outPrefix: string;
-    scalePageTo: number;
+    scalePageTo: ScalePageTo;
 }
 
 export interface Config {
@@ -11,6 +13,7 @@ export interface Config {
     outputDir: string;
     convertOptions: ConvertOptions;
 }
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
