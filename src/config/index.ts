@@ -2,13 +2,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export interface ConvertOptions {
-    format: string;
-    jpeg_quality: number;
-    out_dir: string;
-    out_prefix: string;
-    poppler_path: string;
-    scale: number;
-    anti_aliasing: boolean;
+    outPrefix: string;
+    scalePageTo: number;
 }
 
 export interface Config {
@@ -26,12 +21,7 @@ export const config: Config = {
     inputDir: path.resolve(projectRoot, 'input'),
     outputDir: path.resolve(projectRoot, 'output'),
     convertOptions: {
-        format: 'jpg',
-        jpeg_quality: 100,
-        out_dir: '',
-        out_prefix: 'page',
-        poppler_path: path.resolve(projectRoot, 'poppler-26.02.0', 'Library', 'bin'),
-        scale: 2000,
-        anti_aliasing: true,
+        outPrefix: 'page',
+        scalePageTo: 1000
     },
 };

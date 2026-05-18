@@ -20,16 +20,10 @@ const main = async (): Promise<void> => {
             pdfFiles.map(async (pdfFile) => {
                 const inputPath = path.join(config.inputDir, pdfFile);
                 const outputPath = path.join(config.outputDir, pdfFile);
-                const outputDir = path.join(config.outputDir, path.basename(pdfFile, '.pdf'));
-
                 const pdfConfig: ProcessPDFConfig = {
                     outputDir: config.outputDir,
-                    convertOptions: {
-                        ...config.convertOptions,
-                        out_dir: outputDir,
-                    },
+                    convertOptions: config.convertOptions
                 };
-
                 await processSinglePDF(inputPath, outputPath, pdfConfig);
             })
         );

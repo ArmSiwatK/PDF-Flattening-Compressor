@@ -23,12 +23,12 @@ export const convertPDFToImages = async ({ inputPDFPath, tempDir, convertOptions
 
     await poppler.pdfToCairo(
         inputPDFPath,
-        `${tempDir}/${convertOptions.out_prefix}`,
+        `${tempDir}/${convertOptions.outPrefix}`,
         {
             jpegFile: true,
             firstPageToConvert: 1,
             lastPageToConvert: pageCount,
-            scalePageTo: convertOptions.scale,
+            scalePageTo: convertOptions.scalePageTo,
         }
     );
 

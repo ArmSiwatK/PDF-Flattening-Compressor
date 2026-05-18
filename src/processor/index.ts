@@ -9,15 +9,16 @@ export interface ProcessPDFConfig {
 }
 
 
-
 export const processSinglePDF = async (inputPDFPath: string, outputPDFPath: string, config: ProcessPDFConfig): Promise<void> => {
     console.log(`\n[+] Starting flatten for: ${path.basename(inputPDFPath)}`);
     await ensureDirectoryExists(config.outputDir);
 
     const tempDir = path.join(config.outputDir, `temp_${Date.now()}`);
     await ensureDirectoryExists(tempDir);
-    const images = await convertPDFToImages({ inputPDFPath, tempDir, convertOptions: config.convertOptions, });
-
-    await embedImagesIntoPDF(images, tempDir, outputPDFPath);
-    await cleanupTempFiles(tempDir, images);
+    try {
+        const images = await convertPDFToImages({ inputPDFPath, tempDir, convertOptions: config.convertOptions });
+        await embedImagesIntoPDF(images, tempDir, outputPDFPath);
+    } finally {
+        await cleanupTempFiles(tempDir);
+    }
 };
