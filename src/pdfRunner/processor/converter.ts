@@ -21,7 +21,7 @@ const convertWithPoppler = async (inputPDFPath: string, tempDir: string, pageCou
         firstPageToConvert: 1,
         lastPageToConvert: pageCount,
         scalePageTo: convertOptions.scalePageTo
-    }
+    };
     await poppler.pdfToCairo(inputPDFPath, path.join(tempDir, convertOptions.outPrefix), options);
 };
 
@@ -29,7 +29,7 @@ const convertWithPoppler = async (inputPDFPath: string, tempDir: string, pageCou
 const getGeneratedImages = async (tempDir: string): Promise<string[]> => {
     const images = (await fs.readdir(tempDir))
         .filter(file => file.endsWith('.jpg'))
-        .sort();
+        .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
     if (!images.length) throw new Error('No images generated from PDF');
     return images;
 };
