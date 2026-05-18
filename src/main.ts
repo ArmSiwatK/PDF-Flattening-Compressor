@@ -40,7 +40,10 @@ const selectScalePageTo = async (): Promise<ScalePageTo> => {
             console.log('  3) Much Clearer (scalePageTo 3000)');
             console.log('');
 
-            const answer = await rl.question('Choose 1, 2, or 3, then press Enter: ');
+            const answer = await rl.question(
+                'Type 1, 2, or 3 and press Enter.\n' +
+                'Or just press Enter right away for Smallest: '
+            );
             const choice = answer.trim() || '1';
 
             if (isScalePageToOptionKey(choice)) {
