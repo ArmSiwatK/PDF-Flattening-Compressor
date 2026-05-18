@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import { PDFDocument as LibPDFDocument } from 'pdf-lib';
 import { Poppler } from 'node-poppler';
 import ora from 'ora';
-import { type ConvertOptions } from '../config/index.js';
+import { type ConvertOptions } from '../config.js';
 
 const poppler = new Poppler();
 

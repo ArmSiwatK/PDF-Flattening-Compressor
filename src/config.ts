@@ -8,7 +8,7 @@ export interface ConvertOptions {
     scalePageTo: ScalePageTo;
 }
 
-export interface Config {
+interface Config {
     inputDir: string;
     outputDir: string;
     convertOptions: ConvertOptions;
