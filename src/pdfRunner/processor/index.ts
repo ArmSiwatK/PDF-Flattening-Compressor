@@ -1,4 +1,6 @@
-import path from 'path';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
 import { convertPDFToImages } from './converter.js';
 import { embedImagesIntoPDF } from './embedder.js';
 import { cleanupTempFiles, ensureDirectoryExists } from './utils.js';
@@ -9,8 +11,7 @@ export const processSinglePDF = async (inputPDFPath: string, outputPDFPath: stri
     console.log(`\n[+] Starting flatten for: ${path.basename(inputPDFPath)}`);
     await ensureDirectoryExists(config.outputDir);
 
-    const tempDir = path.join(config.outputDir, `temp_${Date.now()}`);
-    await ensureDirectoryExists(tempDir);
+    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'pdf-flatten-'));
     try {
         const images = await convertPDFToImages({ inputPDFPath, tempDir, convertOptions: config.convertOptions });
         await embedImagesIntoPDF(images, tempDir, outputPDFPath);

@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 
 export const cleanupTempFiles = async (tempDir: string): Promise<void> => {
     await fs.rm(tempDir, { recursive: true, force: true });
-    console.log('[+] Cleaned up temporary images.');
+    console.log('[+] Cleaned up temporary files.');
 };
 
 
