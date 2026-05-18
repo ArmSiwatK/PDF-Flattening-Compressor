@@ -13,7 +13,6 @@ export interface ConvertPDFToImagesParams {
 }
 
 
-
 export const convertPDFToImages = async ({ inputPDFPath, tempDir, convertOptions, }: ConvertPDFToImagesParams): Promise<string[]> => {
     const pdfDoc = await LibPDFDocument.load(await fs.readFile(inputPDFPath));
     const pageCount = pdfDoc.getPageCount();
@@ -24,20 +23,13 @@ export const convertPDFToImages = async ({ inputPDFPath, tempDir, convertOptions
     await poppler.pdfToCairo(
         inputPDFPath,
         `${tempDir}/${convertOptions.outPrefix}`,
-        {
-            jpegFile: true,
-            firstPageToConvert: 1,
-            lastPageToConvert: pageCount,
-            scalePageTo: convertOptions.scalePageTo,
-        }
+        { jpegFile: true, firstPageToConvert: 1, lastPageToConvert: pageCount, scalePageTo: convertOptions.scalePageTo }
     );
-
     spinner.succeed(`Conversion complete in ${((Date.now() - start) / 1000).toFixed(2)}s`);
 
     const images = (await fs.readdir(tempDir))
         .filter(file => file.endsWith('.jpg'))
         .sort();
-
     if (!images.length) throw new Error('No images generated from PDF');
     return images;
 };

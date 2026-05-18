@@ -23,8 +23,5 @@ const projectRoot = path.resolve(__dirname, '../..');
 export const config: Config = {
     inputDir: path.resolve(projectRoot, 'input'),
     outputDir: path.resolve(projectRoot, 'output'),
-    convertOptions: {
-        outPrefix: 'page',
-        scalePageTo: 1000
-    },
+    convertOptions: { outPrefix: 'page', scalePageTo: 1000 }
 };
