@@ -30,7 +30,7 @@ export const config: Config = {
         jpeg_quality: 100,
         out_dir: '',
         out_prefix: 'page',
-        poppler_path: path.resolve(projectRoot, 'poppler-24.08.0', 'Library', 'bin'),
+        poppler_path: path.resolve(projectRoot, 'poppler-26.02.0', 'Library', 'bin'),
         scale: 2000,
         anti_aliasing: true,
     },

@@ -29,6 +29,6 @@
     "exclude": [
         "node_modules",
         "dist",
-        "poppler-24.08.0"
+        "poppler-26.02.0"
     ]
 }

@@ -40,7 +40,7 @@ npm -v
    npm install
    ```
 
-3. Verify that Poppler binaries are present at the correct path (`poppler-24.08.0/Library/bin`).
+3. Verify that Poppler binaries are present at the correct path (`poppler-26.02.0/Library/bin`).
 
 ---
 
@@ -82,7 +82,7 @@ The script will:
 
 ## Troubleshooting
 
-- If you encounter errors related to Poppler, verify the `poppler-24.08.0/Library/bin` path and binaries.
+- If you encounter errors related to Poppler, verify the `poppler-26.02.0/Library/bin` path and binaries.
 
 - Ensure you have read/write permissions on the project folders.
 
