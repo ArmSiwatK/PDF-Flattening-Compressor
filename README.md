@@ -47,9 +47,10 @@ Run the project with:
 npm start
 ```
 
+This uses `tsx` to execute `src/main.ts` without requiring a separate build step.
+
 The script will:
 
-- Compile the TypeScript source from `src/` to JavaScript in `dist/`.
 - Process all PDF files in the `input/` folder.
 - Generate flattened PDFs in the `output/` folder.
 - Clean up temporary image files automatically.
