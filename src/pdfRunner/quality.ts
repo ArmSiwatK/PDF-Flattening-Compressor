@@ -1,6 +1,6 @@
 import readline from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
-import { type ScalePageTo } from './config.js';
+import type { ScalePageTo } from './types.js';
 
 
 const scalePageToOptions = {

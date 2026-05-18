@@ -3,15 +3,9 @@ import path from 'node:path';
 import { PDFDocument as LibPDFDocument } from 'pdf-lib';
 import { Poppler } from 'node-poppler';
 import ora from 'ora';
-import { type ConvertOptions } from '../config.js';
+import type { ConvertOptions, ConvertPDFToImagesParams } from '../types.js';
 
 const poppler = new Poppler();
-
-export interface ConvertPDFToImagesParams {
-    inputPDFPath: string;
-    tempDir: string;
-    convertOptions: ConvertOptions;
-}
 
 
 const getPDFPageCount = async (inputPDFPath: string): Promise<number> => {

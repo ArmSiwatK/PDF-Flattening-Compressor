@@ -1,12 +1,8 @@
 import path from 'path';
-import { convertPDFToImages, type ConvertPDFToImagesParams } from './converter.js';
+import { convertPDFToImages } from './converter.js';
 import { embedImagesIntoPDF } from './embedder.js';
 import { cleanupTempFiles, ensureDirectoryExists } from './utils.js';
-
-export interface ProcessPDFConfig {
-    outputDir: string;
-    convertOptions: ConvertPDFToImagesParams['convertOptions'];
-}
+import type { ProcessPDFConfig } from '../types.js';
 
 
 export const processSinglePDF = async (inputPDFPath: string, outputPDFPath: string, config: ProcessPDFConfig): Promise<void> => {

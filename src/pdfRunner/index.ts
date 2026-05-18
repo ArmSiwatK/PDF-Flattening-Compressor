@@ -1,8 +1,9 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { processSinglePDF, type ProcessPDFConfig } from './processor/index.js';
-import { config, type ScalePageTo } from './config.js';
+import { processSinglePDF } from './processor/index.js';
+import { config } from './config.js';
 import { selectScalePageTo } from './quality.js';
+import type { ScalePageTo, ProcessPDFConfig } from './types.js';
 
 
 const prepareDirectories = async (): Promise<void> => {
